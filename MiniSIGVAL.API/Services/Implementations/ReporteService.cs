@@ -18,6 +18,7 @@ namespace MiniSIGVAL.API.Services.Implementations
         {
             return await _context.Productos
                 .Include(p => p.Categoria)
+                .Where(p => p.Activo)
                 .Select(p => new ReporteStockDto
                 {
                     ProductoId = p.Id,

@@ -43,8 +43,13 @@ namespace MiniSIGVAL.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Crear([FromBody] CrearProductoDto dto)
         {
-            var nuevoProducto = await _productoService.CrearAsync(dto);
-            return Ok(ApiResponse<ProductoDto>.Success(nuevoProducto, "Producto creado correctamente"));
+            var producto = await _productoService.CrearAsync(dto);
+
+            var mensaje = producto.FueReactivado
+                ? "Producto reactivado correctamente"
+                : "Producto creado correctamente";
+
+            return Ok(ApiResponse<ProductoDto>.Success(producto, mensaje));
         }
 
         [HttpPut("{id}")]

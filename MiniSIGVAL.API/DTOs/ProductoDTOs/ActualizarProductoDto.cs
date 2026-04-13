@@ -1,6 +1,4 @@
-﻿// MiniSIGVAL.API/DTOs/ProductoDTOs/ActualizarProductoDto.cs
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MiniSIGVAL.API.DTOs.ProductoDTOs
 {
@@ -21,7 +19,5 @@ namespace MiniSIGVAL.API.DTOs.ProductoDTOs
 
         [Required(ErrorMessage = "La categoría es obligatoria.")]
         public int CategoriaId { get; set; }
-
-        public bool Activo { get; set; }
     }
 }

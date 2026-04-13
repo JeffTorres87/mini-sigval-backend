@@ -1,6 +1,4 @@
-﻿// MiniSIGVAL.API/DTOs/ProductoDTOs/ProductoDto.cs
-
-namespace MiniSIGVAL.API.DTOs.ProductoDTOs
+﻿namespace MiniSIGVAL.API.DTOs.ProductoDTOs
 {
     public class ProductoDto
     {
@@ -21,5 +19,7 @@ namespace MiniSIGVAL.API.DTOs.ProductoDTOs
         public int CategoriaId { get; set; }
 
         public string CategoriaNombre { get; set; } = string.Empty;
+
+        public bool FueReactivado { get; set; } = false;
     }
 }

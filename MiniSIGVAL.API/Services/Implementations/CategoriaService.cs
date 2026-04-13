@@ -68,6 +68,7 @@ namespace MiniSIGVAL.API.Services.Implementations
 
             if (categoriaInactiva != null)
             {
+                categoriaInactiva.Nombre = dto.Nombre.Trim();
                 categoriaInactiva.Descripcion = dto.Descripcion?.Trim();
                 categoriaInactiva.Activo = true;
                 await _context.SaveChangesAsync();
@@ -115,17 +116,42 @@ namespace MiniSIGVAL.API.Services.Implementations
 
             var nombreNormalizado = dto.Nombre.Trim().ToLower();
 
-            var existeOtraCategoriaActiva = await _context.Categorias
+            // 1. Verificar si existe otra categoría ACTIVA con ese nombre
+            var existeActiva = await _context.Categorias
                 .AnyAsync(c => c.Id != id && c.Nombre.ToLower() == nombreNormalizado && c.Activo);
 
-            if (existeOtraCategoriaActiva)
+            if (existeActiva)
             {
                 throw new InvalidOperationException("Ya existe otra categoría activa con ese nombre.");
             }
 
+            // 2. Verificar si existe una categoría INACTIVA con ese nombre
+            var categoriaInactiva = await _context.Categorias
+                .FirstOrDefaultAsync(c => c.Id != id && c.Nombre.ToLower() == nombreNormalizado && !c.Activo);
+
+            if (categoriaInactiva != null)
+            {
+                // Reactivar la existente
+                categoriaInactiva.Activo = true;
+
+                // Desactivar la actual
+                categoria.Activo = false;
+
+                await _context.SaveChangesAsync();
+
+                return new CategoriaDto
+                {
+                    Id = categoriaInactiva.Id,
+                    Nombre = categoriaInactiva.Nombre,
+                    Descripcion = categoriaInactiva.Descripcion,
+                    Activo = categoriaInactiva.Activo,
+                    FechaCreacion = categoriaInactiva.FechaCreacion
+                };
+            }
+
+            // 3. Actualización normal
             categoria.Nombre = dto.Nombre.Trim();
             categoria.Descripcion = dto.Descripcion?.Trim();
-            categoria.Activo = dto.Activo;
 
             await _context.SaveChangesAsync();
 

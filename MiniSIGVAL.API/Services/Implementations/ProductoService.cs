@@ -64,7 +64,8 @@ namespace MiniSIGVAL.API.Services.Implementations
                     Activo = p.Activo,
                     FechaCreacion = p.FechaCreacion,
                     CategoriaId = p.CategoriaId,
-                    CategoriaNombre = p.Categoria != null ? p.Categoria.Nombre : string.Empty
+                    CategoriaNombre = p.Categoria != null ? p.Categoria.Nombre : string.Empty,
+                    FueReactivado = false
                 })
                 .ToListAsync();
 
@@ -98,7 +99,8 @@ namespace MiniSIGVAL.API.Services.Implementations
                 Activo = producto.Activo,
                 FechaCreacion = producto.FechaCreacion,
                 CategoriaId = producto.CategoriaId,
-                CategoriaNombre = producto.Categoria != null ? producto.Categoria.Nombre : string.Empty
+                CategoriaNombre = producto.Categoria != null ? producto.Categoria.Nombre : string.Empty,
+                FueReactivado = false
             };
         }
 
@@ -128,6 +130,7 @@ namespace MiniSIGVAL.API.Services.Implementations
 
             if (productoInactivo != null)
             {
+                productoInactivo.Nombre = dto.Nombre.Trim();
                 productoInactivo.Descripcion = dto.Descripcion?.Trim();
                 productoInactivo.Precio = dto.Precio;
                 productoInactivo.StockActual = dto.StockActual;
@@ -149,7 +152,8 @@ namespace MiniSIGVAL.API.Services.Implementations
                     Activo = productoInactivo.Activo,
                     FechaCreacion = productoInactivo.FechaCreacion,
                     CategoriaId = productoInactivo.CategoriaId,
-                    CategoriaNombre = categoriaReactivada.Nombre
+                    CategoriaNombre = categoriaReactivada.Nombre,
+                    FueReactivado = true
                 };
             }
 
@@ -180,7 +184,8 @@ namespace MiniSIGVAL.API.Services.Implementations
                 Activo = producto.Activo,
                 FechaCreacion = producto.FechaCreacion,
                 CategoriaId = producto.CategoriaId,
-                CategoriaNombre = categoria.Nombre
+                CategoriaNombre = categoria.Nombre,
+                FueReactivado = false
             };
         }
 
@@ -216,7 +221,6 @@ namespace MiniSIGVAL.API.Services.Implementations
             producto.Descripcion = dto.Descripcion?.Trim();
             producto.Precio = dto.Precio;
             producto.StockActual = dto.StockActual;
-            producto.Activo = dto.Activo;
             producto.CategoriaId = dto.CategoriaId;
 
             await _context.SaveChangesAsync();
@@ -234,7 +238,8 @@ namespace MiniSIGVAL.API.Services.Implementations
                 Activo = producto.Activo,
                 FechaCreacion = producto.FechaCreacion,
                 CategoriaId = producto.CategoriaId,
-                CategoriaNombre = categoria.Nombre
+                CategoriaNombre = categoria.Nombre,
+                FueReactivado = false
             };
         }
 

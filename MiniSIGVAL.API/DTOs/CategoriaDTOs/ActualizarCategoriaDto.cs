@@ -1,6 +1,4 @@
-﻿// MiniSIGVAL.API/DTOs/CategoriaDTOs/ActualizarCategoriaDto.cs
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MiniSIGVAL.API.DTOs.CategoriaDTOs
 {
@@ -12,7 +10,5 @@ namespace MiniSIGVAL.API.DTOs.CategoriaDTOs
 
         [MaxLength(250, ErrorMessage = "La descripción no puede exceder 250 caracteres.")]
         public string? Descripcion { get; set; }
-
-        public bool Activo { get; set; }
     }
 }
